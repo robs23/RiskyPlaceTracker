@@ -9,7 +9,7 @@ namespace RiskyPlaceTracker.Models
     public class Place
     {
         [ScaffoldColumn(false)]
-        public int PlaceId { get; set; }
+        public int ReportId { get; set; }
         [Display(Name="Nazwa")]
         public string Name { get; set; }
         [Display(Name="Opis")]
@@ -21,5 +21,7 @@ namespace RiskyPlaceTracker.Models
         public int AddedBy { get; set; }
         [ScaffoldColumn(false)]
         public DateTime AddedOn { get; set; }
+        [Display(Name = "Dodał")]
+        public string AddedByName { get; set; }
     }
 }
