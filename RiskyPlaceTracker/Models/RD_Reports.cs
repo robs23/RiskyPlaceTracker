@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RiskyPlaceTracker
+namespace RiskyPlaceTracker.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
+    [MetadataType(typeof(Models.Report))]
     public partial class RD_Reports
     {
         public int ReportId { get; set; }

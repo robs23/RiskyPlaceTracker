@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RiskyPlaceTracker
+namespace RiskyPlaceTracker.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ModelEntities : DbContext
+    public partial class ReportEntities : DbContext
     {
-        public ModelEntities()
-            : base("name=ModelEntities")
+        public ReportEntities()
+            : base("name=ReportEntities")
         {
         }
     

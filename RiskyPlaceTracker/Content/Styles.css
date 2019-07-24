@@ -1,0 +1,23 @@
+﻿
+.start-img{
+    display: block;
+    background-image: url("workdanager.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+.button-zone{
+    margin: 0 auto;
+    text-align:center;
+}
+
+@media only screen and (max-width: 600px){
+    .start-img{
+        width: 200px;
+        height: 200px;
+    }
+}
