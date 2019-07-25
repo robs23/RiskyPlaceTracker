@@ -3,43 +3,68 @@
 
 <br />
 <br />
+<section id="no-more-tables">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddedByName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddedOn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Photo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+            <tr>
+                <td data-title="@Html.DisplayNameFor(model => model.Name)">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td data-title="@Html.DisplayNameFor(model => model.Description)">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td data-title="@Html.DisplayNameFor(model => model.AddedByName)">
+                    @Html.DisplayFor(modelItem => item.AddedByName)
+                </td>
+                <td data-title="@Html.DisplayNameFor(model => model.AddedOn)">
+                    @Html.DisplayFor(modelItem => item.AddedOn)
+                </td>
+                @if (!string.IsNullOrWhiteSpace(item.Photo))
+                {
+                    <td data-title="@Html.DisplayNameFor(model => model.Photo)">
+                        @Html.ActionLink(item.Photo, "GetPhoto","Report",new { item.Photo},null)
+                    </td>
+                }
+                else
+                {
+                    <td data-title="@Html.DisplayNameFor(model => model.Photo)">
+                        @Html.DisplayFor(modelItem => item.Photo)
+                    </td>
+                }
+                <td>
+                    @*@Html.ActionLink("Edytuj", "EditReport", new { id = item.ReportId }) |
+                    @Html.ActionLink("Szczegóły", "ReportDetails", new { id = item.ReportId }) |*@
+                    @Html.ActionLink("Usuń", "DeleteReport", new { id = item.ReportId })
+                </td>
+            </tr>
+                }
+            }
+         </tbody>
+    </table>
+</section>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AddedByName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AddedOn)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddedByName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddedOn)
-        </td>
-        <td>
-            @Html.ActionLink("Edytuj", "EditReport", new { id = item.ReportId }) |
-            @Html.ActionLink("Szczegóły", "ReportDetails", new { id = item.ReportId }) |
-            @Html.ActionLink("Usuń", "DeleteReport", new { id = item.ReportId })
-        </td>
-    </tr>
-    }

@@ -260,4 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 
+RiskyPlaceTracker/Static/Secrets.cs
 RiskyPlaceTracker/connections.config

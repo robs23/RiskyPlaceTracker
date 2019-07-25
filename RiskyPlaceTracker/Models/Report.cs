@@ -16,8 +16,8 @@ namespace RiskyPlaceTracker.Models
         [Display(Name="Opis")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        [ScaffoldColumn(false)]
-        public byte[] Photo { get; set; }
+        [Display(Name="Zdjęcie")]
+        public string Photo { get; set; }
         [ScaffoldColumn(false)]
         public int AddedBy { get; set; }
         [ScaffoldColumn(false)]
