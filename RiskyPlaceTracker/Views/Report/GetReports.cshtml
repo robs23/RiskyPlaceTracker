@@ -47,7 +47,8 @@
                 @if (!string.IsNullOrWhiteSpace(item.Photo))
                 {
                     <td data-title="@Html.DisplayNameFor(model => model.Photo)">
-                        @Html.ActionLink(item.Photo, "GetPhoto","Report",new { item.Photo},null)
+                        @*@Html.ActionLink(item.Photo, "GetPhoto","Report",new { item.Photo},null)*@
+                        <a href="/Report/GetPhoto/?Photo=@item.Photo"><img width="120" height="120" src="/Report/GetThumb/?Photo=@item.Photo" /></a>
                     </td>
                 }
                 else

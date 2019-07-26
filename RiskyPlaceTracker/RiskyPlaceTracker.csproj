@@ -147,6 +147,7 @@
     </Compile>
     <Compile Include="Models\Report.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static\Functions.cs" />
     <Compile Include="Static\Secrets.cs" />
   </ItemGroup>
   <ItemGroup>

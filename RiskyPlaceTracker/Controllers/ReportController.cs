@@ -1,4 +1,5 @@
 ﻿using RiskyPlaceTracker.Models;
+using RiskyPlaceTracker.Static;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -66,15 +67,14 @@ namespace RiskyPlaceTracker.Controllers
 
         public void ProduceThumbnail(string path)
         {
-            var stream = new MemoryStream();
-            var exteName = Path.GetExtension(path);
-
+            string fileName = Path.GetFileName(path);
             using (Image image = Image.FromFile(path))
             {
-                using (Image thumb = image.GetThumbnailImage(120, 120, () => false, IntPtr.Zero))
-                {
-                    thumb.Save("thumbnail.png", ImageFormat.Png);
-                }
+                Image thumb = Functions.ResizeImage(image, new Size(120, 120), true);
+                Bitmap nBitmap = new Bitmap(thumb);
+                thumb.Dispose();
+                thumb = null;
+                nBitmap.Save(Path.Combine(Static.Secrets.Path2Files + "\\Thumbnails",fileName));
             }
         }
 
@@ -90,6 +90,17 @@ namespace RiskyPlaceTracker.Controllers
             return this.HttpNotFound();
         }
 
+        [HttpGet]
+        public FileResult GetThumb(string Photo)
+        {
+            var path = Path.Combine(Static.Secrets.Path2Thumbs, Photo);
+            var theFile = new FileInfo(path);
+            if (theFile.Exists)
+            {
+                return File(System.IO.File.ReadAllBytes(path), "image/png");
+            }
+            return null;
+        }
 
 
         [HttpGet]
@@ -103,6 +114,7 @@ namespace RiskyPlaceTracker.Controllers
                 {
                     //delete image
                     System.IO.File.Delete(Path.Combine(Static.Secrets.Path2Files, oldReport.Photo));
+                    System.IO.File.Delete(Path.Combine(Static.Secrets.Path2Thumbs, oldReport.Photo));
                 }
                 db.RD_Reports.Remove(oldReport);
                 db.SaveChanges();
