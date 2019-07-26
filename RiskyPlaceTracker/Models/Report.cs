@@ -19,7 +19,9 @@ namespace RiskyPlaceTracker.Models
         [Display(Name="Zdjęcie")]
         public string Photo { get; set; }
         [ScaffoldColumn(false)]
-        public int AddedBy { get; set; }
+        [Required(ErrorMessage = "Wybierz użytkownika!")]
+        [Display(Name="Użytkownik")]
+        public int? AddedBy { get; set; }
         [ScaffoldColumn(false)]
         [Display(Name="Data")]
         public DateTime AddedOn { get; set; }

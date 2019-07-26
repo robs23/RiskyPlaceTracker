@@ -1,5 +1,6 @@
 ﻿using RiskyPlaceTracker.Models;
 using RiskyPlaceTracker.Static;
+using RiskyPlaceTracker.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,15 +33,25 @@ namespace RiskyPlaceTracker.Controllers
         [HttpGet]
         public ActionResult AddReport()
         {
-            return View();
+            List<User> users = new List<User>();
+            users = GetUsers();
+            AddReportViewModel vm = new AddReportViewModel();
+            vm.Users = users;
+            vm.ThisReport = new RD_Reports();
+            return View(vm);
         }
 
         [HttpPost]
-        public ActionResult AddReport(RD_Reports report, HttpPostedFileBase file)
+        public ActionResult AddReport(AddReportViewModel vm, HttpPostedFileBase file)
         {
+            List<User> users = new List<User>();
+            users = GetUsers();
+            vm.Users = users;
             if (!ModelState.IsValid)
             {
-                return View("AddReport", report);
+                
+                vm.ThisReport = new RD_Reports();
+                return View("AddReport", vm);
             }
             else
             {
@@ -53,12 +64,12 @@ namespace RiskyPlaceTracker.Controllers
                     var fileName = Path.GetFileName(file.FileName);
                     var path = Path.Combine(Static.Secrets.Path2Files, fileName);
                     file.SaveAs(path);
-                    report.Photo = fileName;
+                    vm.ThisReport.Photo = fileName;
                     ProduceThumbnail(path);
                 }
-
-                report.AddedOn = DateTime.Now;
-                db.RD_Reports.Add(report);
+                vm.ThisReport.AddedByName = vm.Users.Where(u => u.UserId == vm.ThisReport.AddedBy).FirstOrDefault().FullName;
+                vm.ThisReport.AddedOn = DateTime.Now;
+                db.RD_Reports.Add(vm.ThisReport);
                 db.SaveChanges();
                 return RedirectToAction("GetReports");
             }
@@ -125,5 +136,42 @@ namespace RiskyPlaceTracker.Controllers
                 return new HttpNotFoundResult("Nie znaleziono raportu");
             }
         }
+
+        public List<User> GetUsers()
+        {
+            List<User> ret = null;
+            string conStr = Secrets.MoodleConnectionString; //ConfigurationManager.ConnectionStrings["Moodle"].ConnectionString;
+            var con = new MySql.Data.MySqlClient.MySqlConnection(conStr);
+
+            if (con.State == System.Data.ConnectionState.Closed)
+            {
+                con.Open();
+            }
+
+            string str = string.Format("SELECT us.id, us.firstname, us.lastname FROM mdl_user us ORDER BY us.lastname ASC");
+
+            var command = new MySql.Data.MySqlClient.MySqlCommand(str, con);
+
+            var reader = command.ExecuteReader();
+
+            User u = new User();
+
+            if (reader.HasRows)
+            {
+                ret = new List<User>();
+
+                while (reader.Read())
+                {
+                    u = new User();
+                    u.UserId = Convert.ToInt32(reader[reader.GetOrdinal("id")].ToString());
+                    u.FullName = reader[reader.GetOrdinal("firstname")].ToString() + " " + reader[reader.GetOrdinal("lastname")].ToString();
+                    ret.Add(u);
+                }
+            }
+
+            return ret;
+        }
+
+
     }
 }
