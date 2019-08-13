@@ -25,7 +25,7 @@ namespace RiskyPlaceTracker.Controllers
         [HttpGet]
         public ActionResult GetReports()
         {
-            var reports = db.RD_Reports;
+            var reports = db.RD_Reports.OrderByDescending(i => i.AddedOn);
             return View(reports);
         }
 
